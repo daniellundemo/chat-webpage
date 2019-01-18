@@ -15,6 +15,7 @@ RUN git clone git@github.com:daniellundemo/chat-webpage.git
 
 WORKDIR /chat-webpage
 
+RUN git pull
 RUN pip install -r requirements.txt
 
 COPY . /app
