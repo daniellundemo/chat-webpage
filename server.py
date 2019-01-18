@@ -14,6 +14,7 @@ def sessions():
 @socketio.on('message')
 def handle_message(message):
     # ('received message: ', message['user'], message['message'])
+    # TEST
     if message['message']:
         socketio.emit('message', message)
 
