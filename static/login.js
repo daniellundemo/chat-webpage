@@ -11,8 +11,12 @@ $('form').submit(function (e) {
 });
 
 socket.on('success', function (data) {
-  $('.info').append('<b>' + data.message + '<br>');
-  window.location = 'http://mofo.cloud:8080/chat';
+    if(data.message == "OK") {
+        window.location = 'http://mofo.cloud:8080/chat';
+    } else {
+        $('.info').append('<b>' + data.message + '<br>');
+    }
+
 });
 
 jQuery("input[name='mycheckbox']").each(function() {

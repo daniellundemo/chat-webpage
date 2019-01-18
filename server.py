@@ -26,8 +26,9 @@ def handle_message(message):
         if message['username'] and message['password']:
             if users.check_user(message['username']):
                 users.add_user(message['username'], message['password'])
-                print("OK")
                 socketio.emit('success', {'message': "OK"})
+            else:
+                socketio.emit('success', {'message': "Unable to add user"})
         try:
             if message['message']:
                 socketio.emit('message', message)
