@@ -12,7 +12,7 @@ def sessions():
 
 
 @app.route('/chat')
-def sessions():
+def chat():
     return render_template('chat.html')
 
 
