@@ -26,7 +26,7 @@ socket.on('message', function (data) {
  if ($(".chat").html().length > 5) {
     $('.chat').slice(-1,1)
  }
-  $('.chat').append('<p><strong>' + data.user + '</strong>: ' + data.message + '</p>');
+  $('.chat').append('<strong>' + data.user + '</strong>: ' + data.message);
 });
 
 // When the form is submitted
