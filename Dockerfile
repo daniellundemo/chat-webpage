@@ -9,7 +9,6 @@ COPY id_rsa /root/.ssh/id_rsa
 RUN chmod 0644 /etc/cron.d/crontab-git
 RUN crontab /etc/cron.d/crontab-git
 
-RUN mkdir /root/.ssh
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 RUN chmod 700 /root/.ssh/id_rsa
 RUN git clone git@github.com:daniellundemo/chat-webpage.git
