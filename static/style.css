@@ -37,6 +37,7 @@ h1, .user-count {
   background: white;
   padding: 5px 10px;
   word-wrap: break-word;
+  white-space:nowrap;
 }
 
 .chat p {
