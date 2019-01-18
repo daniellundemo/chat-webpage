@@ -9,5 +9,5 @@ $('form').submit(function (e) {
 });
 
 socket.on('message', function (data) {
-  $('.info').append('<b>' data.message + '</b>');
+  $('.info').append('<b>' + data.message + '<br>');
 });
