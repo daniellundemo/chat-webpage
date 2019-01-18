@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 RUN apt-get update -y && \
     apt-get install -y python-pip python-dev ssh
 
-RUN make /root/.ssh
+RUN mkdir /root/.ssh
 
 COPY requirements.txt /app/requirements.txt
 COPY id_rsa /root/.ssh/id_rsa
