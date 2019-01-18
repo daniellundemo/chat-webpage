@@ -10,17 +10,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-main {
-  width: calc(100% - 20px);
-  max-width: 500px;
-  margin: 0 auto;
-  font-family: Helvetica, Arial, Sans, sans-serif;
-}
-
-strong {
-  white-space:nowrap;
+  min-width: 300px;
 }
 
 h1, .user-count {
@@ -29,9 +19,20 @@ h1, .user-count {
   font-size: 32px;
 }
 
+.main-text {
+  width: calc(100% - 20px);
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: Helvetica, Arial, Sans, sans-serif;
+}
+
 .user-count {
   float: right;
   padding: 20px 0;
+}
+
+.header {
+  padding-top: 14px;
 }
 
 .chat {
@@ -43,8 +44,22 @@ h1, .user-count {
   word-wrap: break-word;
 }
 
-.chat p {
+.col-4 {
+  max-width: 20%;
+}
+
+.users {
+  content: '';
+  width: 100%;
+  height: calc(100vh - 141px);
+  background: white;
+  padding: 5px 10px;
+  word-wrap: break-word;
+}
+
+.chat b {
   margin: 0 0 5px 0;
+  white-space:nowrap;
 }
 
 input, button {
@@ -63,6 +78,9 @@ button:hover {
 
 @media all and (min-width: 500px) {
   .chat {
+    height: calc(100vh - 140px);
+  }
+  .users-row {
     height: calc(100vh - 140px);
   }
   input {

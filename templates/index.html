@@ -6,24 +6,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="static/style.css">
   </head>
   <body>
 
-    <main>
-      <header>
-        <div class="user-count fa fa-user">0</div>
-        <h1>mofo.cloud</h1>
-      </header>
+  <div class="container">
+    <div class="row">
 
-      <section class="chat" style="overflow:auto" id="chat"></section>
+      <div class="col-8 header">
+        <header>
+            <h1>mofo.cloud</h1>
+        </header>
 
-      <form>
-        <input type="text" placeholder="Enter message here" />
-        <button>Send</button>
-      </form>
-    </main>
+        <section class="chat" style="overflow:auto"></section>
 
+        <form>
+            <input type="text" placeholder="Enter message here" />
+            <button>Send</button>
+        </form>
+      </div>
+
+      <div class="col-4 users-row">
+        <header>
+            <div class="user-count fa fa-user">0</div>
+        </header>
+        <section class="users" style="overflow:auto"></section>
+      </div>
+
+
+    </div>
+  </div>
 
     <!-- Include jquery, cookies, socket.io (client-side) and your own code -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
