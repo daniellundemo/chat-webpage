@@ -11,7 +11,9 @@ class Db:
 
     def check_user(self, username):
         if username in self.users:
-            return 1
+            return False
+        else:
+            return True
 
     def list_users(self):
         return self.users.keys()

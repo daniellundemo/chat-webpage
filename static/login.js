@@ -10,8 +10,9 @@ $('form').submit(function (e) {
   });
 });
 
-socket.on('message', function (data) {
+socket.on('success', function (data) {
   $('.info').append('<b>' + data.message + '<br>');
+  window.location = 'http://mofo.cloud:8080/chat';
 });
 
 jQuery("input[name='mycheckbox']").each(function() {

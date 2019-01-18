@@ -22,17 +22,19 @@ def chat():
 @socketio.on('message')
 def handle_message(message):
     print("message=", message)
-    if message['message']:
-        socketio.emit('message', message)
-    # if message['message']:
-    #     socketio.emit('message', message)
     try:
         if message['username'] and message['password']:
-                if users.check_user(message['username']):
-                    users.add_user(message['username'], message['password'])
+            if users.check_user(message['username']):
+                users.add_user(message['username'], message['password'])
+                print("OK")
+                socketio.emit('success', {'message': "OK"})
+        try:
+            if message['message']:
+                socketio.emit('message', message)
+        except KeyError:
+            pass
     except KeyError:
         pass
-
 
 
 @socketio.on('connect')
