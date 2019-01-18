@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat client</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-8 header">
+        <header>
+            <h1>mofo.cloud</h1>
+        </header>
+
+        <section class="chat" style="overflow:auto"></section>
+
+        <form>
+            <input type="text" placeholder="Enter message here" />
+            <button>Send</button>
+        </form>
+      </div>
+
+      <div class="col-4 users-row">
+        <header>
+            <div class="user-count fa fa-user">0</div>
+        </header>
+        <section class="users" style="overflow:auto"></section>
+      </div>
+
+
+    </div>
+  </div>
+
+    <!-- Include jquery, cookies, socket.io (client-side) and your own code -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://unpkg.com/cookie_js@1.2.2/cookie.min.js"></script>
+    <script src="https://unpkg.com/socket.io-client@2/dist/socket.io.slim.js"></script>
+    <script src="static/javascript.js?0001"></script>
+  </body>
+</html>
