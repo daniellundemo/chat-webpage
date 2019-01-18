@@ -48,7 +48,7 @@ $('form').submit(function (e) {
   $(e.target).find('input').focus();
 });
 
-const chat = document.getElementById("chat")
+const chat = document.getElementById("auto-scroll")
 
 setInterval(function() {
     // allow 1px inaccuracy by adding 1
