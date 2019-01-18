@@ -3,7 +3,15 @@
   <head>
     <title>Login page</title>
   </head>
-  <body>
-    BLABLABLALABLALBLA
-  </body>
+  <form>
+      <input input type="text" name="username" placeholder="Enter nickname:" required>
+      <input type="password" name="password" placeholder="Enter password:" required>
+      <button>Send</button>
+  </form>
+
+  <section class="info" style="overflow:auto" id="info"></section>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://unpkg.com/socket.io-client@2/dist/socket.io.slim.js"></script>
+  <script src="static/login.js"></script>
 </html>

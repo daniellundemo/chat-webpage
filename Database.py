@@ -9,5 +9,9 @@ class Db:
         if username in self.users:
             del self.users[username]
 
+    def check_user(self, username):
+        if username in self.users:
+            return 1
+
     def list_users(self):
         return self.users.keys()
