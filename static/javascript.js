@@ -23,9 +23,6 @@ socket.on('count', function (data) {
 // When we receive a message
 // it will be like { user: 'username', message: 'text' }
 socket.on('message', function (data) {
- if ($(".chat").html().length > 5) {
-    $('.chat').slice(-1,1)
- }
   $('.chat').append('<b>' + data.user + '</b>: ' + data.message + '<br>');
 });
 

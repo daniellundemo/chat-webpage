@@ -1,12 +1,22 @@
 from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room
 from Database import Db
+import flask-login
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'WRTGJOPIRUGOIQ34THLDCJNVXZas'
 socketio = SocketIO(app)
 users = Db();
 count = 0
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    next = get_redirect_target()
+    if request.method == 'POST':
+        # login code here
+        return redirect_back('index')
+    return render_template('index.html', next=next)
 
 
 @app.route('/')
@@ -19,20 +29,25 @@ def chat():
     return render_template('chat.html')
 
 
-@socketio.on('message')
+@socketio.on('connect', namespace='/chat')
+def test_connect():
+    socketio.emit('my response', {'data': 'Connected'})
+
+@socketio.on('message', namespace='/chat')
 def handle_message(message):
-    socketio.emit('success', {'message': message})
+    print(message)
+    socketio.emit('message', message)
 
 
 @socketio.on('auth')
-def handle_auth(message):
+def handle_auth(data):
 
-    if not message['username'] and not message['password']:
+    if not data['username'] and not data['password']:
         socketio.emit('success', {'message': "Enter username and password"})
     else:
 
-        username = message['username']
-        password = message['password']
+        username = data['username']
+        password = data['password']
         # if username does not exist
         if not users.check_user(username):
             users.add_user(username, password)
@@ -42,6 +57,7 @@ def handle_auth(message):
             # if user enter valid password
             if users.check_password(username, password):
                 socketio.emit('success', {'message': 'OK'})
+                socketio.
                 # TODO: Deliver cookie with auth
             else:
                 # if user enter wrong password

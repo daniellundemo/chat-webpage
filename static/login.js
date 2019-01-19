@@ -12,7 +12,7 @@ $('form').submit(function (e) {
 
 socket.on('success', function (data) {
     if(data.message == "OK") {
-        window.location = 'http://mofo.cloud:8080/chat';
+        window.location = '/chat';
     } else {
         $('.info').append('<b>' + data.message + '<br>');
     }
