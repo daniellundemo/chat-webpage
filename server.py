@@ -21,7 +21,12 @@ def chat():
 
 @socketio.on('message')
 def handle_message(message):
-    print("message=", message)
+    socketio.emit('success', {'message': message})
+
+
+@socketio.on('auth')
+def handle_auth(message):
+
     if not message['username'] and not message['password']:
         socketio.emit('success', {'message': "Enter username and password"})
     else:
