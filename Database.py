@@ -11,9 +11,16 @@ class Db:
 
     def check_user(self, username):
         if username in self.users:
-            return False
-        else:
             return True
+        else:
+            return False
+
+    def check_password(self, username, password):
+        try:
+            if self.users[username] == password:
+                return True
+        except KeyError:
+            return False
 
     def list_users(self):
         return self.users.keys()

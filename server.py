@@ -22,20 +22,26 @@ def chat():
 @socketio.on('message')
 def handle_message(message):
     print("message=", message)
-    try:
-        if message['username'] and message['password']:
-            if users.check_user(message['username']):
-                users.add_user(message['username'], message['password'])
-                socketio.emit('success', {'message': "OK"})
+    if not message['username'] and not message['password']:
+        socketio.emit('success', {'message': "Enter username and password"})
+    else:
+
+        username = message['username']
+        password = message['password']
+        # if username does not exist
+        if not users.check_user(username):
+            users.add_user(username, password)
+            socketio.emit('success', {'message': "OK"})
+
+        else:
+            # if user enter valid password
+            if users.check_password(username, password):
+                socketio.emit('success', {'message': 'OK'})
+                # TODO: Deliver cookie with auth
             else:
-                socketio.emit('success', {'message': "Unable to add user"})
-        try:
-            if message['message']:
-                socketio.emit('message', message)
-        except KeyError:
-            pass
-    except KeyError:
-        pass
+                # if user enter wrong password
+                users.add_user(username, password)
+                socketio.emit('success', {'message': "Wrong password"})
 
 
 @socketio.on('connect')
