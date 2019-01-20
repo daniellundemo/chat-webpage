@@ -8,6 +8,8 @@ socket.on('count', function (data) {
 socket.on('message', function (data) {
   $('.chat').append('<b>' + data.user + '</b>: ' + data.message + '<br>');
   document.title = data.user + " new message"
+  socket.emit('ping', {
+    session_id: cookie.get('session_id')
 });
 
 socket.on('user-list', function (data) {

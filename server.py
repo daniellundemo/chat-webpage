@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'WRTGJOPIRUGOIQ34THLDCJNVXZas'
 socketio = SocketIO(app)
 users = Db();
-clients = []
+active_users = []
 count = 0
 
 
@@ -24,6 +24,11 @@ def chat():
     return render_template('chat.html')
 
 
+@socketio.on('ping', namespace='/chat')
+def handle_ping(data):
+    active_users.append(data['session_id'])
+
+
 @socketio.on('message', namespace='/chat')
 def handle_message(message):
     print(message)
@@ -35,10 +40,9 @@ def handle_message(message):
                       room=request.sid, namespace='/chat')
     else:
         if message['message']:
-            if "<" in message['message']:
-                socketio.emit('message', {'user': 'SERVER', 'message': "Trying to hack me, GTFO!"},
-                              room=request.sid, namespace='/chat')
-                disconnect()
+            if "<" in message['message'] and ">" in message['message']:
+                return
+
             if users.check_sid(message['user'], message['session_id']):
                 socketio.emit('message', message, namespace='/chat')
             else:
@@ -75,15 +79,17 @@ def handle_auth(data):
 def connect():
     global count
     count = len(users.list_users())
-    socketio.emit('count', {'count': count}, namespace='/chat')
 
+    socketio.emit('count', {'count': count}, namespace='/chat')
     socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
 
 
 @socketio.on('disconnect', namespace='/chat')
 def disconnect():
     global count
+    users.del_users(active_users)
     count = len(users.list_users())
+    socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
     socketio.emit('count', {'count': count}, namespace='/chat')
 
 

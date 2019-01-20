@@ -7,9 +7,14 @@ class Db:
         self.users[username]['sid'] = sid
         self.users[password]['password'] = password
 
-    def del_user(self, username):
-        if username in self.users:
-            del self.users[username]
+    def del_users(self, active_users):
+        for sid in active_users:
+            for username in self.users:
+                found_user = 0
+                if sid in username['sid']:
+                    found_user = 1
+                if found_user == 0:
+                    del self.users[username]
 
     def check_user(self, username):
         if username in self.users:
