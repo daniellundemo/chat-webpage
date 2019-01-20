@@ -23,4 +23,4 @@ class Db:
             return False
 
     def list_users(self):
-        return self.users.keys()
+        return list(self.users.keys())

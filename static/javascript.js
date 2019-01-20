@@ -9,6 +9,13 @@ socket.on('message', function (data) {
   $('.chat').append('<b>' + data.user + '</b>: ' + data.message + '<br>');
 });
 
+socket.on('user-list', function (data) {
+  $('.users').empty();
+  data.users.forEach(function(element) {
+    $('.users').append('<b>' + element + '</b></br>');
+  });
+});
+
 $('form').submit(function (e) {
   e.preventDefault();
   var message = $(e.target).find('input').val();

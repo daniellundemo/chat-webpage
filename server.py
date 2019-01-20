@@ -24,6 +24,7 @@ def chat():
 def handle_message(message):
     print("clientid:", request.namespace, request.sid)
     print(message)
+    print(type(users.list_users()))
     if message['message'] == "/help":
         socketio.emit('message', {'user': 'SERVER', 'message': "Lol, trenger du hjelp?"},
                       room=request.sid, namespace='/chat')
@@ -59,17 +60,19 @@ def handle_auth(data):
 @socketio.on('connect', namespace='/chat')
 def connect():
     global count
-    count += 1
-    clients.append(request.namespace)
-    socketio.emit('count', {'count': count})
+    count = len(users.list_users())
+    socketio.emit('count', {'count': count}, namespace='/chat')
+
+    socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
 
 
 @socketio.on('disconnect', namespace='/chat')
 def disconnect():
     global count
-    count -= 1
-    clients.remove(request.namespace)
-    socketio.emit('count', {'count': count})
+    count = len(users.list_users())
+    socketio.emit('count', {'count': count}, namespace='/chat')
+
+    socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
 
 
 if __name__ == '__main__':
