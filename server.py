@@ -72,7 +72,6 @@ def disconnect():
     count = len(users.list_users())
     socketio.emit('count', {'count': count}, namespace='/chat')
 
-    socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
 
 
 if __name__ == '__main__':

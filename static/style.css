@@ -54,7 +54,6 @@ h1, .user-count {
   height: calc(100vh - 141px);
   background: white;
   padding: 5px 10px;
-  word-wrap: break-word;
 }
 
 .chat b {
