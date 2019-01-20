@@ -43,17 +43,16 @@ def handle_auth(data):
         password = data['password']
         # if username does not exist
         if not users.check_user(username):
-            users.add_user(username, password)
+            users.add_user(request.sid, username, password)
             socketio.emit('success', {'message': "OK"}, room=request.sid)
 
         else:
             # if user enter valid password
             if users.check_password(username, password):
+                users.update_sid(username, request.sid)
                 socketio.emit('success', {'message': 'OK'}, room=request.sid)
-                # TODO: Deliver cookie with auth
             else:
                 # if user enter wrong password
-                users.add_user(username, password)
                 socketio.emit('success', {'message': "Wrong password"}, room=request.sid)
 
 

@@ -4,6 +4,7 @@ $('form').submit(function (e) {
   e.preventDefault();
   var username = $(e.target).find('input[name="username"]').val();
   var password = $(e.target).find('input[name="password"]').val();
+  cookie.set('user', username);
   socket.emit('auth', {
     username: username,
     password: password
