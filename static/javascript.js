@@ -12,7 +12,7 @@ socket.on('message', function (data) {
 socket.on('user-list', function (data) {
   $('.users').empty();
   data.users.forEach(function(element) {
-    $('.users').append('<button onclick="joinChat()" class="btn btn-link">' + '<b>' + element + '</b></br></button>');
+    $('.users').append(element);
   });
 });
 
