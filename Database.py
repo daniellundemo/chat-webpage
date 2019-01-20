@@ -28,8 +28,6 @@ class Db:
             return False
 
     def check_sid(self, username, sid):
-        print(self.users[username]['sid'])
-        print(sid)
         try:
             if self.users[username]['sid'] == sid:
                 return True

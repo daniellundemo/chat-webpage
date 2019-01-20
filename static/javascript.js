@@ -22,7 +22,8 @@ $('form').submit(function (e) {
   var message = $(e.target).find('input').val();
   socket.emit('message', {
     user: cookie.get('user') || 'Anonymous',
-    message: message
+    message: message,
+    session_id: cookie.get('session_id')
   });
 
   e.target.reset();

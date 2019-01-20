@@ -7,7 +7,8 @@ $('form').submit(function (e) {
   cookie.set('user', username);
   socket.emit('auth', {
     username: username,
-    password: password
+    password: password,
+    session_id: cookie.get('session_id')
   });
 });
 
