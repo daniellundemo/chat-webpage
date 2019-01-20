@@ -1,22 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room, leave_room
 from Database import Db
-import flask-login
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'WRTGJOPIRUGOIQ34THLDCJNVXZas'
 socketio = SocketIO(app)
 users = Db();
+clients = []
 count = 0
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    next = get_redirect_target()
-    if request.method == 'POST':
-        # login code here
-        return redirect_back('index')
-    return render_template('index.html', next=next)
 
 
 @app.route('/')
@@ -29,13 +20,12 @@ def chat():
     return render_template('chat.html')
 
 
-@socketio.on('connect', namespace='/chat')
-def test_connect():
-    socketio.emit('my response', {'data': 'Connected'})
-
-@socketio.on('message', namespace='/chat')
+@socketio.on('message')
 def handle_message(message):
+    print("clientid:", request.namespace, request.sid)
     print(message)
+    if message['message'] == "teqerbest":
+        socketio.emit('message', {'user': 'SERVER', 'message': "Det er faen meg helt sant"}, room=request.sid)
     socketio.emit('message', message)
 
 
@@ -57,7 +47,6 @@ def handle_auth(data):
             # if user enter valid password
             if users.check_password(username, password):
                 socketio.emit('success', {'message': 'OK'})
-                socketio.
                 # TODO: Deliver cookie with auth
             else:
                 # if user enter wrong password
@@ -69,6 +58,7 @@ def handle_auth(data):
 def connect():
     global count
     count += 1
+    clients.append(request.namespace)
     socketio.emit('count', {'count': count})
 
 
@@ -76,6 +66,7 @@ def connect():
 def disconnect():
     global count
     count -= 1
+    clients.remove(request.namespace)
     socketio.emit('count', {'count': count})
 
 
