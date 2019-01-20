@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from flask_socketio import SocketIO, join_room, leave_room
+from flask_socketio import SocketIO
 from Database import Db
 
 app = Flask(__name__)
@@ -20,20 +20,22 @@ def chat():
     return render_template('chat.html')
 
 
-@socketio.on('message')
+@socketio.on('message', namespace='/chat')
 def handle_message(message):
     print("clientid:", request.namespace, request.sid)
     print(message)
-    if message['message'] == "teqerbest":
-        socketio.emit('message', {'user': 'SERVER', 'message': "Det er faen meg helt sant"}, room=request.sid)
-    socketio.emit('message', message)
+    if message['message'] == "/help":
+        socketio.emit('message', {'user': 'SERVER', 'message': "Lol, trenger du hjelp?"},
+                      room=request.sid, namespace='/chat')
+    else:
+        socketio.emit('message', message, namespace='/chat')
 
 
 @socketio.on('auth')
 def handle_auth(data):
 
     if not data['username'] and not data['password']:
-        socketio.emit('success', {'message': "Enter username and password"})
+        socketio.emit('success', {'message': "Enter username and password"}, room=request.sid)
     else:
 
         username = data['username']
@@ -41,20 +43,20 @@ def handle_auth(data):
         # if username does not exist
         if not users.check_user(username):
             users.add_user(username, password)
-            socketio.emit('success', {'message': "OK"})
+            socketio.emit('success', {'message': "OK"}, room=request.sid)
 
         else:
             # if user enter valid password
             if users.check_password(username, password):
-                socketio.emit('success', {'message': 'OK'})
+                socketio.emit('success', {'message': 'OK'}, room=request.sid)
                 # TODO: Deliver cookie with auth
             else:
                 # if user enter wrong password
                 users.add_user(username, password)
-                socketio.emit('success', {'message': "Wrong password"})
+                socketio.emit('success', {'message': "Wrong password"}, room=request.sid)
 
 
-@socketio.on('connect')
+@socketio.on('connect', namespace='/chat')
 def connect():
     global count
     count += 1
@@ -62,7 +64,7 @@ def connect():
     socketio.emit('count', {'count': count})
 
 
-@socketio.on('disconnect')
+@socketio.on('disconnect', namespace='/chat')
 def disconnect():
     global count
     count -= 1
