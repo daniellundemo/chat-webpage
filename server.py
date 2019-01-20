@@ -30,7 +30,7 @@ def handle_message(message):
                       room=request.sid, namespace='/chat')
     else:
         if message['message']:
-            if message['message'] == "<":
+            if "<" in message['message']:
                 socketio.emit('message', {'user': 'SERVER', 'message': "Trying to hack me, GTFO!"},
                               room=request.sid, namespace='/chat')
                 disconnect()
