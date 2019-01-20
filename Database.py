@@ -27,5 +27,11 @@ class Db:
         except KeyError:
             return False
 
+    def check_sid(self, sid):
+        for user in self.users.keys():
+            if sid == user[sid]:
+                return True
+        return False
+
     def list_users(self):
         return list(self.users.keys())

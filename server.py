@@ -34,8 +34,11 @@ def handle_message(message):
                 socketio.emit('message', {'user': 'SERVER', 'message': "Trying to hack me, GTFO!"},
                               room=request.sid, namespace='/chat')
                 disconnect()
-
-            socketio.emit('message', message, namespace='/chat')
+            if users.check_sid(request.sid):
+                socketio.emit('message', message, namespace='/chat')
+            else:
+                socketio.emit('message', {'user': 'SERVER', 'message': "Du er ikke logga inn, NOOB."},
+                              room=request.sid, namespace='/chat')
 
 
 @socketio.on('auth')
