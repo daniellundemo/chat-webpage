@@ -4,8 +4,8 @@ class Db:
 
     def add_user(self, sid, username, password):
         self.users[username] = {}
-        self.users[username][sid] = sid
-        self.users[password][password] = password
+        self.users[username]['sid'] = sid
+        self.users[password]['password'] = password
 
     def del_user(self, username):
         if username in self.users:
@@ -18,20 +18,25 @@ class Db:
             return False
 
     def update_sid(self, username, sid):
-        self.users[username][sid] = sid
+        self.users[username]['sid'] = sid
 
     def check_password(self, username, password):
         try:
-            if self.users[username][password] == password:
+            if self.users[username]['password'] == password:
                 return True
         except KeyError:
             return False
 
-    def check_sid(self, sid):
-        for user in self.users.keys():
-            if sid == user[sid]:
+    def check_sid(self, username, sid):
+        print(self.users[username]['sid'])
+        print(sid)
+        try:
+            if self.users[username]['sid'] == sid:
                 return True
-        return False
+            else:
+                return False
+        except KeyError:
+            return False
 
     def list_users(self):
         return list(self.users.keys())

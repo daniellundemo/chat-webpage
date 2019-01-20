@@ -34,7 +34,7 @@ def handle_message(message):
                 socketio.emit('message', {'user': 'SERVER', 'message': "Trying to hack me, GTFO!"},
                               room=request.sid, namespace='/chat')
                 disconnect()
-            if users.check_sid(request.sid):
+            if users.check_sid(message['user'], request.sid):
                 socketio.emit('message', message, namespace='/chat')
             else:
                 socketio.emit('message', {'user': 'SERVER', 'message': "Du er ikke logga inn, NOOB."},
@@ -79,8 +79,6 @@ def disconnect():
     global count
     count = len(users.list_users())
     socketio.emit('count', {'count': count}, namespace='/chat')
-
-
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=4000, debug=True)
