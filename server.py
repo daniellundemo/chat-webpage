@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, disconnect
 from Database import Db
 
 app = Flask(__name__)
@@ -29,7 +29,13 @@ def handle_message(message):
         socketio.emit('message', {'user': 'SERVER', 'message': "Lol, trenger du hjelp?"},
                       room=request.sid, namespace='/chat')
     else:
-        socketio.emit('message', message, namespace='/chat')
+        if message['message']:
+            if message['message'] == "<":
+                socketio.emit('message', {'user': 'SERVER', 'message': "Trying to hack me, GTFO!"},
+                              room=request.sid, namespace='/chat')
+                disconnect()
+
+            socketio.emit('message', message, namespace='/chat')
 
 
 @socketio.on('auth')
