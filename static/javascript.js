@@ -7,6 +7,7 @@ socket.on('count', function (data) {
 
 socket.on('message', function (data) {
   $('.chat').append('<b>' + data.user + '</b>: ' + data.message + '<br>');
+  document.title = "New message from:" + data.user;
 });
 
 socket.on('user-list', function (data) {
