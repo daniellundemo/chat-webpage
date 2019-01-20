@@ -4,11 +4,10 @@ from Database import Db
 import uuid
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'WRTGJOPIRUGOIQ34THLDCJNVXZas'
 socketio = SocketIO(app)
-users = Db();
+users = Db()
 active_users = []
-count = 0
+user_count = 0
 
 
 @app.route('/')
@@ -24,8 +23,9 @@ def chat():
     return render_template('chat.html')
 
 
-@socketio.on('ping', namespace='/chat')
+@socketio.on('isalive', namespace='/chat')
 def handle_ping(data):
+    print("received ping from: ", data['session_id'])
     active_users.append(data['session_id'])
 
 
@@ -46,7 +46,8 @@ def handle_message(message):
             if users.check_sid(message['user'], message['session_id']):
                 socketio.emit('message', message, namespace='/chat')
             else:
-                socketio.emit('message', {'user': 'SERVER', 'message': "Du er ikke logga inn, NOOB."},
+                # reply "error" when not logged in
+                socketio.emit('no-session', {'session': 'error'},
                               room=request.sid, namespace='/chat')
 
 
@@ -77,21 +78,21 @@ def handle_auth(data):
 
 @socketio.on('connect', namespace='/chat')
 def connect():
-    global count
-    count = len(users.list_users())
+    global user_count
+    user_count = len(users.list_users())
 
-    socketio.emit('count', {'count': count}, namespace='/chat')
+    socketio.emit('count', {'count': user_count}, namespace='/chat')
     socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
 
 
 @socketio.on('disconnect', namespace='/chat')
 def disconnect():
-    global count
+    global user_count
     users.del_users(active_users)
-    count = len(users.list_users())
+    user_count = len(users.list_users())
     socketio.emit('user-list', {'users': users.list_users()}, namespace='/chat')
-    socketio.emit('count', {'count': count}, namespace='/chat')
+    socketio.emit('count', {'count': user_count}, namespace='/chat')
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=4000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=4000)

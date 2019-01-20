@@ -5,11 +5,18 @@ socket.on('count', function (data) {
   $('.user-count').html(data.count);
 });
 
+socket.on('no-session', function (data) {
+  if(data.session == "error") {
+    window.location = '/';
+  };
+});
+
 socket.on('message', function (data) {
   $('.chat').append('<b>' + data.user + '</b>: ' + data.message + '<br>');
-  document.title = data.user + " new message"
-  socket.emit('ping', {
+  document.title = data.user + " new message";
+  socket.emit('isalive', {
     session_id: cookie.get('session_id')
+  });
 });
 
 socket.on('user-list', function (data) {

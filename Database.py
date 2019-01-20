@@ -5,13 +5,14 @@ class Db:
     def add_user(self, sid, username, password):
         self.users[username] = {}
         self.users[username]['sid'] = sid
-        self.users[password]['password'] = password
+        self.users[username]['password'] = password
 
     def del_users(self, active_users):
+        # TODO: fix this shit
         for sid in active_users:
             for username in self.users:
                 found_user = 0
-                if sid in username['sid']:
+                if sid in self.users[username]['sid']:
                     found_user = 1
                 if found_user == 0:
                     del self.users[username]
